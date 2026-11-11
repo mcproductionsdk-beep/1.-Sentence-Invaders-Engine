@@ -10,7 +10,7 @@ const files = [
 ];
 
 const headers = `/*
-  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'; img-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'; img-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors https://bt-vocabulary-platform-staging.pages.dev https://*.bt-vocabulary-platform-staging.pages.dev
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin
   X-Robots-Tag: noindex, nofollow
@@ -29,7 +29,7 @@ for (const [destination, content] of assets) {
 
 const manifest = {
   environment: 'staging',
-  mode: 'isolated-fixture',
+  mode: 'sentence-session-v1',
   sourceCommit: process.env.CF_PAGES_COMMIT_SHA || process.env.GITHUB_SHA || 'local',
   baselineBlob: '3e28e0e8f1b173b8e27705ab7fed4ad2b5ea2628',
   buildId: hash.digest('hex'),

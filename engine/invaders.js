@@ -26,12 +26,12 @@ $('sound').onclick=()=>{soundOn=!soundOn;$('sound').textContent=soundOn?'SOUND O
 $('play').onclick=()=>start([['I will work tomorrow.','Yo trabajaré mañana.'],['We eat apples every day.','Nosotros comemos manzanas todos los días.']]);
 document.addEventListener('keydown',e=>{if(!running)return;if(['ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.repeat)return;if(e.code==='Space')fire();if(e.code==='KeyP')togglePause();if(e.code==='KeyR')restart();if(e.code==='Enter'&&completed)advance()});
 document.addEventListener('keyup',e=>keys.delete(e.code));
-for(const [id,dir] of [['left',-1],['right',1]]){const b=$(id);b.onpointerdown=e=>{if(!running||paused)return;e.preventDefault();b.setPointerCapture(e.pointerId);touchDir=dir};for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>touchDir=0)}
+for(const [id,dir] of [['left',-1],['right',1]]){const b=$(id);b.onpointerdown=e=>{if(!running||paused)return;e.preventDefault();try{b.setPointerCapture(e.pointerId)}catch{};touchDir=dir};for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>touchDir=0)}
 $('fire').onpointerdown=e=>{e.preventDefault();fire()};
 const touch={id:null,startX:0,initialX:0,moved:false,startAt:0};
 function clearTouch(){touch.id=null;touch.moved=false;touchDir=0;keys.clear()}
 for(const surface of [canvas,$('thumbDeck')]){
- surface.addEventListener('pointerdown',e=>{if(!running||paused||completed||over||touch.id!==null)return;e.preventDefault();if(e.pointerType==='mouse'){if(surface===canvas){const r=canvas.getBoundingClientRect();shipX=Math.max(35,Math.min(W-35,(e.clientX-r.left)*W/r.width));fire()}return}touch.id=e.pointerId;touch.startX=e.clientX;touch.initialX=shipX;touch.startAt=performance.now();touch.moved=false;surface.setPointerCapture(e.pointerId)},{passive:false});
+ surface.addEventListener('pointerdown',e=>{if(!running||paused||completed||over||touch.id!==null)return;e.preventDefault();if(e.pointerType==='mouse'){if(surface===canvas){const r=canvas.getBoundingClientRect();shipX=Math.max(35,Math.min(W-35,(e.clientX-r.left)*W/r.width));fire()}return}touch.id=e.pointerId;touch.startX=e.clientX;touch.initialX=shipX;touch.startAt=performance.now();touch.moved=false;try{surface.setPointerCapture(e.pointerId)}catch{}},{passive:false});
  surface.addEventListener('pointermove',e=>{if(e.pointerId!==touch.id)return;e.preventDefault();const dx=e.clientX-touch.startX;if(Math.abs(dx)>9)touch.moved=true;if(touch.moved){const r=surface.getBoundingClientRect();shipX=Math.max(35,Math.min(W-35,touch.initialX+dx*W/r.width))}},{passive:false});
  surface.addEventListener('pointerup',e=>{if(e.pointerId!==touch.id)return;e.preventDefault();if(!touch.moved&&performance.now()-touch.startAt<340)fire();clearTouch()},{passive:false});
  for(const ev of ['pointercancel','lostpointercapture'])surface.addEventListener(ev,clearTouch);

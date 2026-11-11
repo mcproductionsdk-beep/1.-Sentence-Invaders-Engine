@@ -1,1 +1,13 @@
-# 1.-Sentence-Invaders-Engine
+# Sentence Invaders Engine — isolated staging
+
+Owner-created destination: mcproductionsdk-beep/1.-Sentence-Invaders-Engine (repository ID 1452769472). Initial main/develop commit 467c9e47c43fa7fc1979c43d439cdee6f69c8741. No legacy repository was replaced.
+
+Baseline: Educational-Games/main/sentence-games-release-candidate/invaders/index.html, blob 3e28e0e8f1b173b8e27705ab7fed4ad2b5ea2628. The source embeds a second complete portrait engine in srcdoc. Both copies were extracted and compared. One maintained engine now retains desktop pixel invaders/ship and portrait fighter/saucer art plus portrait enemy fire, shield and drag/tap controls. These baseline device-specific mechanics are preserved rather than presented as identical difficulty.
+
+Preserve next-word waves, shuffled target position/color, target-only distractors, ship movement, firing limit of two bullets, 25 points per correct word, 100 sentence bonus, three lives, NOPE, wrong-choice replenishment, descent penalties, sentence assembly and completion speech. The fixture contains two explicit Spanish sample pairs; distractors come from their target-language tokens. No catalog, teacher editor, sharing API or production requests are included.
+
+Migration fixes: one active engine/RAF; restart/exit clear timers/input/speech; pause/visibility clear held input; bounded horizontal sway prevents enemies drifting offscreen; long labels are contained in their lanes. Full-sentence speech retains the original target punctuation. Common top row is Pause/Restart/Main Menu/Sound in the approved dark palette, with one title and no redundant fullscreen/audio actions. Long prompts/assembly wrap in bounded panels; gameplay page does not scroll.
+
+Build: node scripts/build-preview.mjs; output dist-preview; blank root. version.json records content hash and baseline. CI serves the clean output with restrictive CSP and blocks external requests. Checks desktop, portrait and landscape: keyboard movement, shooting collision, correct/wrong hit, availability of correct target, completion, restart during speech, touch tap/drag, portrait enemy fire, long labels, mute and return. Mock speech is request evidence, not audible-device acceptance.
+
+This is the isolated gameplay/design review gate. Shared menu, vocabulary, pronunciation and sharing integration follows owner review. No production merge, API, DNS, route or public cutover is authorized.

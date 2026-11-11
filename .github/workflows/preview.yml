@@ -23,4 +23,4 @@ jobs:
 
       - run: node scripts/test-deployed-preview.mjs
         env:
-          INVADERS_REVIEW_URL: https://16dfade3.bt-sentence-invaders-preview.pages.dev/
+          INVADERS_REVIEW_URL: https://7cc922b7.bt-sentence-invaders-preview.pages.dev/

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {createServer} from 'node:http';import {chromium,devices} from 'playwright';
 const root=new URL('../dist-preview/',import.meta.url);const headers=await readFile(new URL('_headers',root),'utf8'),csp=headers.match(/Content-Security-Policy: (.+)/)[1];
-const files={'/':['index.html','text/html'],'/engine/invaders.js':['engine/invaders.js','text/javascript'],'/engine/invaders.css':['engine/invaders.css','text/css']};
+const files={'/engine/lifecycle.js':['engine/lifecycle.js','text/javascript'],'/':['index.html','text/html'],'/engine/invaders.js':['engine/invaders.js','text/javascript'],'/engine/invaders.css':['engine/invaders.css','text/css']};
 const server=createServer(async(req,res)=>{const f=files[new URL(req.url,'http://localhost').pathname];if(!f)return res.writeHead(404).end();res.writeHead(200,{'Content-Type':f[1],'Content-Security-Policy':csp});res.end(await readFile(new URL(f[0],root)))});
 const browser=await chromium.launch();try{await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin='http://127.0.0.1:'+server.address().port;
 for(const [name,opts] of [['desktop',{viewport:{width:1280,height:800}}],['portrait',devices['Pixel 7']],['landscape',{...devices['Pixel 7'],viewport:{width:844,height:390}}]]){
